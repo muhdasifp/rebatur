@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:machine_test/core/http/http_helper.dart';
 import 'package:machine_test/feature/home/model/class_model.dart';
+import 'package:machine_test/feature/home/model/student_response_model.dart';
 
 import '../../../data/constant/api.dart';
 
@@ -16,13 +17,11 @@ class HomeRepo {
 
   HomeRepo(this._httpHelper);
 
-  Future<List> fetchStudents({int? page}) async {
+  Future<StudentResponseModel> fetchStudents({int? page}) async {
     try {
-      final res = await _httpHelper.get(Api.students);
-      List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(
-        res['data'],
-      );
-      return data;
+      final res = await _httpHelper.get('${Api.students}?page=${page??1}');
+      Map<String, dynamic> data = Map<String, dynamic>.from(res);
+      return StudentResponseModel.fromJson(data);
     } catch (e) {
       throw e.toString();
     }

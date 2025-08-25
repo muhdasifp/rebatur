@@ -18,7 +18,7 @@ class DeleteStudentNotifier extends StateNotifier<DeleteStudentState> {
     try {
       state = DeleteStudentLoading();
       await _homeRepo.deleteStudent(id: id);
-      ref.read(studentListProvider(1));
+      ref.read(studentListProvider.notifier).fetchStudents();
       state = DeleteStudentSuccess();
     } catch (e) {
       state = DeleteStudentError(message: e.toString());

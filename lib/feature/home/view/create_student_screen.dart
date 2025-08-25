@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:machine_test/core/widget/app_field.dart';
+import 'package:machine_test/feature/home/model/student_response_model.dart';
 import 'package:machine_test/feature/home/provider/class_list_provider.dart';
 import 'package:machine_test/feature/home/provider/create_student_provider.dart';
 
@@ -11,7 +12,8 @@ import '../../../core/theme/app_color.dart';
 import '../../../core/widget/button.dart';
 
 class CreateStudentScreen extends ConsumerStatefulWidget {
-  const CreateStudentScreen({super.key});
+  final StudentModel? student;
+  const CreateStudentScreen({super.key,this.student});
 
   @override
   ConsumerState<CreateStudentScreen> createState() =>
@@ -27,6 +29,23 @@ class _CreateStudentScreenState extends ConsumerState<CreateStudentScreen> {
 
   final List<String> subjects = [];
   File? uploadedImage;
+
+
+  @override
+  void initState() {
+    loadDate();
+    super.initState();
+  }
+
+
+  void loadDate(){
+    if(widget.student != null){
+      nameCtrl.text = widget.student!.name??'';
+      phoneCtrl.text = widget.student!.phone??'';
+      selectedClass = widget.student!.datumClass??'';
+      subjects.addAll((widget.student!.subjects??[]).map((e) => e).toList());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

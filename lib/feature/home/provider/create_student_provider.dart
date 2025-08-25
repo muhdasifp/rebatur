@@ -23,7 +23,7 @@ class CreateStudentNotifier extends StateNotifier<CreateStudentState> {
     try {
       state = CreateStudentLoading();
       await _homeRepo.createStudent(file: file, body: body);
-      ref.read(studentListProvider(1));
+      ref.read(studentListProvider.notifier).fetchStudents();
       state = CreateStudentSuccess();
     } catch (e) {
       state = CreateStudentError(message: e.toString());
